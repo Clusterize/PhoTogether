@@ -17,7 +17,8 @@ class EventsListViewMovel extends Observable {
         let promise = new Promise((resolve, reject) => {
             let options = {
                 startDate: new Date(new Date().getTime() - (50 * 24 * 60 * 60 * 1000)),
-                endDate: new Date(new Date().getTime() + (50 * 24 * 60 * 60 * 1000))
+                endDate: new Date(new Date().getTime() + (50 * 24 * 60 * 60 * 1000)),
+                title: 'photogether' 
             };
 
             calendar.requestPermission()
