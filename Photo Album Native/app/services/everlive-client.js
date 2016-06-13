@@ -1,3 +1,5 @@
+'use strict';
+
 var Everlive = require('../everlive.all.min');
 var userService = require('./user-service.js')
 
@@ -24,19 +26,27 @@ function uploadImages(event, images) {
 }
 
 function getImages(event) {
-    console.log('bla bla bla');
-    var query = new Everlive.Query();
-    query.where().regex('Filename', '^' + getFolder(event) + '_.*');
-    everlive.Files.get(query)
-    	.then(function(data) {
-        	console.log(JSON.stringify(data));
-	    }, function(error) {
-        	console.log(JSON.stringify(error));
-	    });
+    var promise = new Promise(function(resolve, reject) {
+        var query = new Everlive.Query();
+        query.where().regex('Filename', '^' + getFolder(event) + '_.*');
+        everlive.Files.get(query)
+            .then(function(data) {
+            	var images = data.result.map(function(file) {
+                    return {
+                        "url": file.Uri,
+                        "date": new Date(file.CreatedAt)
+                    };
+                });
+                console.log(JSON.stringify(images));
+            	resolve(images);
+            }, reject);
+    });
+    
+    return promise;
 }
 
 function getFolder(event) {
-    return event.name + "_" + event.startDate.getTime() + "_" + event.endDate.getTime();
+    return event.name + "_" + getTime(event.startDate) + "_" + getTime(event.endDate);
 }
 
 function createGuid() {
@@ -44,6 +54,10 @@ function createGuid() {
       var r = Math.random()*16|0, v = c === 'x' ? r : (r&0x3|0x8);
       return v.toString(16);
    });
+}
+
+function getTime(date) {
+    return date.getTime() / 100000;
 }
 
 exports.uploadImages = uploadImages;
