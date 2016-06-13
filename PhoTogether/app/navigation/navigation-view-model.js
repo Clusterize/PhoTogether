@@ -5,7 +5,7 @@ var menuItems,
 
 menuItems = [{
     "title": "Home View",
-    "modulePath": "components/homeView/homeView",
+    "modulePath": "components/eventsListView/eventsList",
     "icon": "\uE0DD"
 }];
 
