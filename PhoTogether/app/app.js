@@ -1,11 +1,10 @@
 "use strict";
 var application = require('application');
-
-application.mainModule = './components/homeView/homeView';
+application.mainModule = './components/eventsListView/eventsList';
 application.cssFile = "./app.css";
+
 // START_CUSTOM_CODE_nativeScriptApp
 // Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes
-
 let Analytics = require('nativescript-telerik-analytics');
 
 application.on(application.launchEvent, function(context) {
