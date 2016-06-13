@@ -11,7 +11,7 @@ var everlive = new Everlive({
 function uploadImages(event, images) {
     images.forEach(function(image) {
         var file = {
-            "Filename": getFolder(event) + "_" +  + uuid.v4() + ".jpg",
+            "Filename": getFolder(event) + "_" +  + createGuid() + ".jpg",
             "ContentType": "image/jpeg",
             "UserId": userService.getUserId(),
             "base64": image.toBase64String(enums.ImageFormat.jpeg, 100)
@@ -43,6 +43,13 @@ function getImages(event) {
     });
     
     return promise;
+}
+
+function createGuid() {
+   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random()*16|0, v = c === 'x' ? r : (r&0x3|0x8);
+      return v.toString(16);
+   });
 }
 
 function getFolder(event) {
