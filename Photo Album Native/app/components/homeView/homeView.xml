@@ -1,4 +1,4 @@
-<Page loaded="onPageLoaded" xmlns="http://schemas.nativescript.org/tns.xsd" actionBarHidden="true">
+<Page loaded="onPageLoaded" xmlns="http://schemas.nativescript.org/tns.xsd" xmlns:calendar="nativescript-telerik-ui-pro/calendar" actionBarHidden="true">
 	<GridLayout rows="*, auto">
 		<ListView items="{{ photoItems }}" row="0" >
 			<ListView.itemTemplate>
@@ -9,4 +9,6 @@
 		</ListView>
 		<Button text="{{ message }}" row="1" tap="{{ tapAction }}"/>
 	</GridLayout>
+	
+    <!--<calendar:RadCalendar id="calendar" />-->
 </Page>
