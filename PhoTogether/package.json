@@ -11,6 +11,7 @@
     "dependencies": {
         "tns-core-modules": "2.0.1",
         "nativescript-telerik-ui-pro": "file:nativescript-ui-pro.tgz",
-        "nativescript-telerik-analytics": "file:nativescript-telerik-analytics-1.0.6.tgz"
+        "nativescript-calendar": "1.0.5",
+        "moment": "2.13.0"
     }
 }
