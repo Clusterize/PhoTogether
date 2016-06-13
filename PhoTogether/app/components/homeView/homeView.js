@@ -1,3 +1,5 @@
+"use strict";
+
 var modelModule = require("./homeView-service");
 var model = modelModule.photoAlbumModel;
 
