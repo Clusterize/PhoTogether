@@ -9,19 +9,23 @@ var everlive = new Everlive({
 });
 
 function uploadImages(event, images) {
-    images.forEach(function(image) {
-        var file = {
-            "Filename": getFolder(event) + "_" +  + createGuid() + ".jpg",
-            "ContentType": "image/jpeg",
-            "UserId": userService.getUserId(),
-            "base64": image.toBase64String(enums.ImageFormat.jpeg, 100)
-        };
-        
-        everlive.files.create(file, function(data) {
-            console.log(JSON.stringify(data));
-        }, function(error) {
-            console.log(JSON.stringify(error));
+    var userId = userService.getUserId().then(function(id) {
+        images.forEach(function(image) {
+            var file = {
+                "Filename": getFolder(event) + "_" +  + createGuid() + ".jpg",
+                "ContentType": "image/jpeg",
+                "UserId": id,
+                "base64": image.toBase64String(enums.ImageFormat.jpeg, 100)
+            };
+
+            everlive.files.create(file, function(data) {
+                console.log(JSON.stringify(data));
+            }, function(error) {
+                console.log(JSON.stringify(error));
+            });
         });
+    }, function(error) {
+        console.dir(error);
     });
 }
 
