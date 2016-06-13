@@ -13,7 +13,6 @@
         "nativescript-telerik-ui-pro": "file:nativescript-ui-pro.tgz",
         "nativescript-calendar": "1.0.5",
         "moment": "2.13.0",
-		"nativescript-telerik-analytics": "file:nativescript-telerik-analytics-1.0.6.tgz",
         "nativescript-contacts": "1.5.0"
     }
 }
