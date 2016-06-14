@@ -23,15 +23,7 @@ function onPageLoaded(args) {
     model.getEvents()
         .then(() => {
             model.eventsList.forEach((event) => {
-                photosService.getDevicePhotos(event)
-                    .then(() => {
-                        console.log("-----then");
-                    }, (err) => {
-                        console.log("-----Refejt", err);
-                    })
-                    .catch((ex) => {
-                        console.log("--------ex", ex);
-                    });
+                photosService.getDevicePhotos(event);
             });
         });
 

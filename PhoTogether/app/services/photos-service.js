@@ -9,65 +9,60 @@ let enums = require("ui/enums");
 
 class PhotosService {
     _getiOSPhotos(event) {
-        let promise = new Promise((resolve, reject) => {
-            let fetchResult = PHAsset.fetchAssetsWithMediaTypeOptions(PHAssetMediaType.Image, null);
-            for (var i = 0; i < fetchResult.count; i++) {
-                let asset = fetchResult.objectAtIndex(i);
-                let imageDate = new Date(asset.creationDate.toString());
-                if (imageDate >= event.startDate && imageDate < event.endDate) {
-                    let options = PHImageRequestOptions.alloc().init();
-                    options.resizeMode = PHImageRequestOptionsResizeMode.PHImageRequestOptionsResizeModeExact;
-                    options.synchronous = true;
-                    options.deliveryMode = PHImageRequestOptionsDeliveryMode.PHImageRequestOptionsDeliveryModeOpportunistic;
-                    PHImageManager.defaultManager().requestImageForAssetTargetSizeContentModeOptionsResultHandler(asset, CGSizeMake(300, 300), PHImageContentMode.AspectFit, options, function (image, info) {
-                        let nsdata = UIImagePNGRepresentation(image);
-                        let everliveImage = new EverliveImage(imageDate, nsdata);
-                        // Niki check!
-                        everliveClient.uploadImages(event, [everliveImage]);
-                    });
-                }
+        let fetchResult = PHAsset.fetchAssetsWithMediaTypeOptions(PHAssetMediaType.Image, null);
+        for (var i = 440; i < fetchResult.count; i++) {
+            let asset = fetchResult.objectAtIndex(i);
+            let imageDate = new Date(asset.creationDate.toString());
+            let startDate = new Date(event.startDate.toString());
+            let endDate = new Date(event.endDate.toString());
+            if (imageDate >= startDate && imageDate <= endDate) {
+                let options = PHImageRequestOptions.alloc().init();
+                options.resizeMode = PHImageRequestOptionsResizeMode.PHImageRequestOptionsResizeModeExact;
+                options.synchronous = true;
+                options.deliveryMode = PHImageRequestOptionsDeliveryMode.PHImageRequestOptionsDeliveryModeOpportunistic;
+                PHImageManager.defaultManager().requestImageForAssetTargetSizeContentModeOptionsResultHandler(asset, CGSizeMake(300, 300), PHImageContentMode.AspectFit, options, function (image, info) {
+                    let nsdata = UIImagePNGRepresentation(image);
+                    let everliveImage = new EverliveImage(imageDate, nsdata); 
+                    // Niki check!
+                    everliveClient.uploadImages(event, [everliveImage]);
+                });
             }
-        });
-
-        return promise;
+        }
     }
 
     _getAndroidPhotos(event) {
-        let promise = new Promise((resolve, reject) => {
-            let uri = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
 
-            let projection = [];
-            projection.push(android.provider.MediaStore.MediaColumns.DATA);
-            projection.push(android.provider.MediaStore.Images.Media.BUCKET_DISPLAY_NAME);
+        let uri = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
 
-            let cursor = application.android.nativeApp.getContentResolver().query(uri, projection, null, null, null);
-            let column_index_data = cursor.getColumnIndexOrThrow(android.provider.MediaStore.MediaColumns.DATA);
-            let column_index_folder_name = cursor.getColumnIndexOrThrow(android.provider.MediaStore.Images.Media.BUCKET_DISPLAY_NAME);
+        let projection = [];
+        projection.push(android.provider.MediaStore.MediaColumns.DATA);
+        projection.push(android.provider.MediaStore.Images.Media.BUCKET_DISPLAY_NAME);
 
-            let listOfAllImages = [],
-                PathOfImage = null;
+        let cursor = application.android.nativeApp.getContentResolver().query(uri, projection, null, null, null);
+        let column_index_data = cursor.getColumnIndexOrThrow(android.provider.MediaStore.MediaColumns.DATA);
+        let column_index_folder_name = cursor.getColumnIndexOrThrow(android.provider.MediaStore.Images.Media.BUCKET_DISPLAY_NAME);
 
-            while (cursor.moveToNext()) {
-                PathOfImage = cursor.getString(column_index_data);
-                listOfAllImages.push(PathOfImage);
+        let listOfAllImages = [],
+            PathOfImage = null;
 
-                let exifInterface = new android.media.ExifInterface(PathOfImage);
+        while (cursor.moveToNext()) {
+            PathOfImage = cursor.getString(column_index_data);
+            listOfAllImages.push(PathOfImage);
 
-                if (exifInterface.hasThumbnail()) {
-                    let imageDate = new Date(exifInterface.getAttribute(android.media.ExifInterface.TAG_DATETIME));
-                    if (imageDate >= event.startDate && imageDate < event.endDate) {
-                        let everliveImage = new EverliveImage(imageDate, new Buffer(exifInterface.getThumbnail()));
-                        everliveClient.uploadImages(event, [everliveImage]);
-                    }
+            let exifInterface = new android.media.ExifInterface(PathOfImage);
+
+            if (exifInterface.hasThumbnail()) {
+                let imageDate = new Date(exifInterface.getAttribute(android.media.ExifInterface.TAG_DATETIME));
+                let startDate = new Date(event.startDate.toString());
+            	let endDate = new Date(event.endDate.toString());
+
+            if (imageDate >= startDate && imageDate <= endDate) {
+                    let everliveImage = new EverliveImage(imageDate, new Buffer(exifInterface.getThumbnail()));
+                    everliveClient.uploadImages(event, [everliveImage]);
                 }
-
-                // console.log("TAG_GPS_LATITUDE " + exifInterface.getAttribute(android.media.ExifInterface.TAG_GPS_LATITUDE));
-                // console.log("TAG_GPS_LONGITUDE " + exifInterface.getAttribute(android.media.ExifInterface.TAG_GPS_LONGITUDE));
-                // console.log("TAG_DATETIME ", exifInterface.getAttribute(android.media.ExifInterface.TAG_DATETIME));
             }
-        });
+        }
 
-        return promise;
     }
 
     getDevicePhotos(event) {
