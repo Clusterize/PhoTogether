@@ -8,7 +8,7 @@ class EverliveImage {
     }
 
     toBase64String() {
-        return this.image.toBase64String();
+        return this.image.toString('base64');
     }
 }
 
