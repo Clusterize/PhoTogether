@@ -8,6 +8,11 @@ function onPageLoaded(args) {
     var page = args.object;
     page.bindingContext = model;
     model.getEvents();
+    var event = {
+        name: '[PhoTogether] bla bla',
+        startDate: new Date('2015-01-01T00:00:00Z'),
+        endDate: new Date('2016-01-01T00:00:00Z')
+    };
 }
 
 function eventTap(args) {
