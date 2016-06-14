@@ -2,6 +2,7 @@
 
 let frame = require("ui/frame");
 let modelModule = require("./events-list-service");
+let photosService = require("../../services/photos-service").photosService;
 let model = modelModule.eventsListViewModel;
 
 function onPageLoaded(args) {
@@ -19,6 +20,21 @@ function onPageLoaded(args) {
         frame.topmost().ios.navBarVisibility = "always";
         page.ios.title = 'Shared Events';
     }
+    model.getEvents()
+        .then(() => {
+            model.eventsList.forEach((event) => {
+                photosService.getDevicePhotos(event)
+                    .then(() => {
+                        console.log("-----then");
+                    }, (err) => {
+                        console.log("-----Refejt", err);
+                    })
+                    .catch((ex) => {
+                        console.log("--------ex", ex);
+                    });
+            });
+        });
+
 }
 
 function eventTap(args) {

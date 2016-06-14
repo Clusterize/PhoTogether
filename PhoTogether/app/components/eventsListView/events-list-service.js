@@ -12,20 +12,25 @@ class EventsListViewMovel extends Observable {
     }
 
     getEvents() {
-        // this.eventsList.slice(0, this.eventsList.length);
-        eventsService.getEvents()
-            .then((events) => {
-                events.forEach((event) => {
-                    let hasEvent = false;
-                    this.eventsList.forEach((addedEvent) => {
-                        hasEvent = addedEvent.title === event.title;
-                    });
+        let promise = new Promise((resolve, reject) => {
+            eventsService.getEvents()
+                .then((events) => {
+                    events.forEach((event) => {
+                        let hasEvent = false;
+                        this.eventsList.forEach((addedEvent) => {
+                            hasEvent = addedEvent.title === event.title;
+                        });
 
-                    if (!hasEvent) {
-                        this.eventsList.push(event);
-                    }
+                        if (!hasEvent) {
+                            this.eventsList.push(event);
+                        }
+                    });
+                	
+                resolve(this.eventsList);
                 });
-            });
+        });
+
+        return promise;
     }
 }
 

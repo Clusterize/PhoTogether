@@ -11,3 +11,7 @@ class EverliveImage {
         return this.image.toBase64String();
     }
 }
+
+module.exports = {
+    EverliveImage: EverliveImage
+};
