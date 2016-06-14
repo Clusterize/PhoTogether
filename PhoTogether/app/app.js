@@ -1,6 +1,6 @@
 "use strict";
 var application = require('application');
-application.mainModule = './components/eventsListView/eventsList';
+application.mainModule = './components/startView/startView';
 application.cssFile = "./app.css";
 
 // START_CUSTOM_CODE_nativeScriptApp
