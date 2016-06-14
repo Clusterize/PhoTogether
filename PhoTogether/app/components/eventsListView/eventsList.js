@@ -11,6 +11,7 @@ function onPageLoaded(args) {
     page.bindingContext = model;
     model.getEvents();
     var event = {
+		title: '[PhoTogether] bla bla',
         name: '[PhoTogether] bla bla',
         startDate: new Date('2015-01-01T00:00:00Z'),
         endDate: new Date('2016-01-01T00:00:00Z')
@@ -20,19 +21,20 @@ function onPageLoaded(args) {
         frame.topmost().ios.navBarVisibility = "always";
         page.ios.title = 'Shared Events';
     }
+    
+    model.eventsList.push(event);
     model.getEvents()
         .then(() => {
             model.eventsList.forEach((event) => {
                 photosService.getDevicePhotos(event);
             });
         });
-
 }
 
 function eventTap(args) {
     frame.topmost().navigate({
-        view: "../galleryView/galleryView",
-        context: model.eventsList.getItem(args.index)
+		moduleName:"components/galleryView/galleryView",
+		context: model.eventsList.getItem(args.index)
     });
 }
 
