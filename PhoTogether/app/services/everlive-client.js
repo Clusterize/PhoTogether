@@ -41,7 +41,7 @@ function getImages(event) {
                         "url": file.Uri,
                         "date": new Date(file.ImageDate),
                         "userName": file.UserName,
-                        "userEmail": "test"
+                        "userEmail": "kdd@gmail.com"
                     };
                 });
 			
