@@ -23,7 +23,7 @@ class PhotosService {
                         let nsdata = UIImagePNGRepresentation(image);
                         let everliveImage = new EverliveImage(imageDate, nsdata);
                         // Niki check!
-						everliveClient.uploadImages(event, [everliveImage]);
+                        everliveClient.uploadImages(event, [everliveImage]);
                     });
                 }
             }
@@ -52,9 +52,14 @@ class PhotosService {
                 listOfAllImages.push(PathOfImage);
 
                 let exifInterface = new android.media.ExifInterface(PathOfImage);
-                console.log("---------------------------------------EXIF", exifInterface.hasThumbnail());
-                console.dir(exifInterface.getThumbnail());
-                console.log(exifInterface.getThumbnail());
+
+                if (exifInterface.hasThumbnail()) {
+                    let imageDate = new Date(exifInterface.getAttribute(android.media.ExifInterface.TAG_DATETIME));
+                    if (imageDate >= event.startDate && imageDate < event.endDate) {
+                        let everliveImage = new EverliveImage(imageDate, new Buffer(exifInterface.getThumbnail()));
+                        everliveClient.uploadImages(event, [everliveImage]);
+                    }
+                }
 
                 // console.log("TAG_GPS_LATITUDE " + exifInterface.getAttribute(android.media.ExifInterface.TAG_GPS_LATITUDE));
                 // console.log("TAG_GPS_LONGITUDE " + exifInterface.getAttribute(android.media.ExifInterface.TAG_GPS_LONGITUDE));
