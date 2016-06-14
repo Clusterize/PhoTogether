@@ -12,16 +12,15 @@ function uploadImages(event, images) {
     var userId = userService.getUserInfo().then(function(info) {
         images.forEach(function(image) {
             var file = {
-                "Filename": getFolder(event) + "_" +  + createGuid() + ".jpg",
+                "Filename": getFolder(event) + "_" + createGuid() + ".jpg",
                 "ContentType": "image/jpeg",
                 "UserEmail": info.email,
                 "UserName": info.name,
                 "ImageDate": image.date,
-                "base64": image.toBase64String(enums.ImageFormat.jpeg, 100)
+                "base64": image.toBase64String()
             };
 
             everlive.files.create(file, function(data) {
-                console.log(JSON.stringify(data));
             }, function(error) {
                 console.log(JSON.stringify(error));
             });
@@ -61,7 +60,9 @@ function createGuid() {
 }
 
 function getFolder(event) {
-    return hash(event.name + "_" + getTime(event.startDate) + "_" + getTime(event.endDate));
+    let startDate = new Date(event.startDate.toString());
+    let endDate = new Date(event.endDate.toString());
+    return hash(event.title + "_" + getTime(startDate) + "_" + getTime(endDate));
 }
 
 function getTime(date) {

@@ -1,6 +1,6 @@
 <Page loaded="onPageLoaded" xmlns="http://schemas.nativescript.org/tns.xsd" xmlns:calendar="nativescript-telerik-ui-pro/calendar" actionBarHidden="true">
   <StackLayout>
-    <Button text="List Calendar events" ontap="listEvents"/>
-    <Button text="Upload photos" ontap="upload"/>
+    <Button text="List Calendar events" ontap="listEvents" class="start-button"/>
+    <Button text="Upload photos" ontap="upload" class="start-button"/>
   </StackLayout>
 </Page>

@@ -114,6 +114,11 @@ switch {
     font-size: 20;
 }
 
+.start-button {
+    margin: 16;
+    min-height: 128;
+}
+
 /* START_CUSTOM_CODE_nativeScriptApp */
 
 
