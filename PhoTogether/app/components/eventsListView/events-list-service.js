@@ -27,8 +27,8 @@ class EventsListViewMovel extends Observable {
                 }, reject)
                 .then((data) => {
                     data.forEach((event) => {
-                        event.startDate = moment(event.startDate).format("lll");
-                        event.endDate = moment(event.endDate).format("lll");
+                        event.startDate = moment(event.startDate).calendar();
+                        event.endDate = moment(event.endDate).calendar();
 
                         that.eventsList.push(event);
                     });

@@ -105,6 +105,15 @@ switch {
     text-align: center;
 }
 
+.ionicons {
+  font-family: 'Ionicons';
+}
+
+.event-title {
+    font-weight: bold;
+    font-size: 20;
+}
+
 /* START_CUSTOM_CODE_nativeScriptApp */
 
 
