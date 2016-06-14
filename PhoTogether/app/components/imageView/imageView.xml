@@ -1,0 +1,6 @@
+<Page navigatingTo="onNavigatingTo">
+  <StackLayout>
+     <!--Bind the image source property to view-model property -->
+     <Image src="{{ url }}" />
+  </StackLayout>
+</Page>

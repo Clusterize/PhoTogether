@@ -1,0 +1,13 @@
+<!-- test-page.xml -->
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" xmlns:gv="nativescript-grid-view" loaded="onPageLoaded" navigatingTo="onNavigatingTo">
+  <GridLayout>
+    <gv:GridView items="{{ photoItems }}" verticalSpacing="0" horizontalSpacing="0" colWidth="150" rowHeight="150" margin="20" padding="20">
+      <gv:GridView.itemTemplate>
+		   <GridLayout>
+			<Image src="{{ url }}" verticalAlignment="center" height="110px" stretch="aspectFill"/>
+		  	 <Label text="{{ userEmail }}" verticalAlignment="bottom"/>
+		  </GridLayout>
+      </gv:GridView.itemTemplate>
+    </gv:GridView> 
+  </GridLayout>
+</Page>

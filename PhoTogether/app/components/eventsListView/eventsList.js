@@ -6,19 +6,23 @@ let model = modelModule.eventsListViewModel;
 
 function onPageLoaded(args) {
     var page = args.object;
-    page.bindingContext = model;
-    model.getEvents();
-    var event = {
+	var event = {
+		title: '[PhoTogether] bla bla',
         name: '[PhoTogether] bla bla',
         startDate: new Date('2015-01-01T00:00:00Z'),
         endDate: new Date('2016-01-01T00:00:00Z')
     };
+	model.eventsList.push(event);
+    page.bindingContext = model;
+    model.getEvents();
+    
 }
 
 function eventTap(args) {
+	console.log("navigate");
     frame.topmost().navigate({
-        view: "../galleryView/galleryView",
-        context: model.eventsList.getItem(args.index)
+		moduleName:"components/galleryView/galleryView",
+		context: model.eventsList.getItem(args.index)
     });
 }
 

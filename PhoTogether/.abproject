@@ -5,7 +5,7 @@
   "AppIdentifier": "com.telerik.photogether",
   "DisplayName": "PhoTogether",
   "Author": "pala4inka",
-  "Description": "",
+  "Description": "PhoTogether",
   "BundleVersion": "1.0",
   "AndroidVersionCode": "1",
   "iOSDeviceFamily": [

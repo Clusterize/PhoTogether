@@ -42,10 +42,10 @@ function getImages(event) {
                         "url": file.Uri,
                         "date": new Date(file.ImageDate),
                         "userName": file.UserName,
-                        "userEmail": file.UserEmail
+                        "userEmail": "test"
                     };
                 });
-                console.log(JSON.stringify(images));
+			
             	resolve(images);
             }, reject);
     });
