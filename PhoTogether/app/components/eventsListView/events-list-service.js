@@ -2,51 +2,34 @@
 
 let Observable = require("data/observable").Observable;
 let ObservableArray = require("data/observable-array").ObservableArray;
-let calendar = require("nativescript-calendar");
-let moment = require("moment");
+let eventsService = require("../../services/events-service").eventsService;
+let _ = require("lodash");
 
 class EventsListViewMovel extends Observable {
     constructor() {
         super();
         this.eventsList = new ObservableArray([]);
-        moment.locale("bg");
     }
 
     getEvents() {
-        let that = this;
-        let promise = new Promise((resolve, reject) => {
-            let options = {
-                startDate: new Date(new Date().getTime() - (50 * 24 * 60 * 60 * 1000)),
-                endDate: new Date(new Date().getTime() + (50 * 24 * 60 * 60 * 1000)),
-                title: 'photogether' 
-            };
-
-            calendar.requestPermission()
-                .then((granted) => {
-                    return calendar.findEvents(options);
-                }, reject)
-                .then((data) => {
-                    data.forEach((event) => {
-                        event.startDate = moment(event.startDate).calendar();
-                        event.endDate = moment(event.endDate).calendar();
-
-                        that.eventsList.push(event);
+        // this.eventsList.slice(0, this.eventsList.length);
+        eventsService.getEvents()
+            .then((events) => {
+                events.forEach((event) => {
+                    let hasEvent = false;
+                    this.eventsList.forEach((addedEvent) => {
+                        hasEvent = addedEvent.title === event.title;
                     });
 
-                    resolve(data);
-                }, (err) => {
-                    reject({
-                        message: "Cannot get the events from your calendar."
-                    });
+                    if (!hasEvent) {
+                        this.eventsList.push(event);
+                    }
                 });
-
-
-        });
-
-        return promise;
+            });
     }
 }
 
 module.exports = {
-    eventsListViewModel: new EventsListViewMovel()
+    eventsListViewModel: new EventsListViewMovel(),
+    EventsListViewMovel: EventsListViewMovel
 };

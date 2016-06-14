@@ -5,7 +5,8 @@ let modelModule = require("./events-list-service");
 let model = modelModule.eventsListViewModel;
 
 function onPageLoaded(args) {
-    var page = args.object;
+    let page = args.object;
+    model = new modelModule.EventsListViewMovel();
     page.bindingContext = model;
     model.getEvents();
     var event = {
